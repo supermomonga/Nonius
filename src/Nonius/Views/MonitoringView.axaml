@@ -64,12 +64,14 @@
                     </ComboBox>
                 </StackPanel>
 
+                <!--
                 <Label Grid.Column="1" Grid.Row="0" Content="Duration" />
                 <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
                     <TimePicker
                         ClockIdentifier="24HourClock"
                         SelectedTime="{Binding DisplayDuration.Value}" />
                 </StackPanel>
+                -->
             </Grid>
 
             <DataGrid
