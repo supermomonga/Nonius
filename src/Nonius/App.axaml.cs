@@ -8,6 +8,7 @@ using Nonius.Views;
 using Microsoft.Extensions.Hosting;
 using HotAvalonia;
 using Avalonia.Preferences;
+using WebViewControl;
 
 namespace Nonius;
 
@@ -25,6 +26,8 @@ public partial class App : Application
 
     public override async void OnFrameworkInitializationCompleted()
     {
+        WebView.Settings.OsrEnabled = false;
+
         var hostBuilder = CreateHostBuilder();
         var host = hostBuilder.Build();
         GlobalHost = host;
