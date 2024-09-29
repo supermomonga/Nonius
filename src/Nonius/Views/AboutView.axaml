@@ -14,14 +14,22 @@
 
     <DockPanel>
         <StackPanel Margin="20" DockPanel.Dock="Top" Orientation="Horizontal">
+            <Image
+                Margin="0 0 10 0"
+                Height="40"
+                Width="40"
+                Source="avares://Nonius/Assets/nonius.png"/>
             <TextBlock
+                VerticalAlignment="Center"
                 Text="Nonius"
                 Theme="{StaticResource TitleTextBlockStyle}" />
+            <!-- TODO: Data binding version number
             <StackPanel
                 VerticalAlignment="Center"
                 Margin="10 0 0 0">
                 <TextBlock Text="Version 0.0.1" />
             </StackPanel>
+            -->
         </StackPanel>
 
         <ScrollViewer
@@ -44,6 +52,7 @@
                                 </StackPanel>
                             </ui:SettingsExpander.Header>
                             <ui:SettingsExpanderItem
+                                IsVisible="{Binding Authors, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                                 Content="Authors">
                                 <ui:SettingsExpanderItem.Footer>
                                     <TextBlock Text="{Binding Authors}" />
