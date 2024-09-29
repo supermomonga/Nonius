@@ -43,8 +43,31 @@ public partial class AboutViewModel : ViewModelBase
         }
         Licenses.Add(new LicenseInfo()
         {
+            PackageId = "jhawthorn/vernier",
+            PackageVersion = string.Empty,
+            PackageProjectUrl = "https://github.com/jhawthorn/vernier",
+            Authors = string.Empty,
+            License = "MIT",
+            LicenseUrl = "https://github.com/jhawthorn/vernier/blob/main/LICENSE.txt",
+            Copyright = string.Empty,
+            LicenseInformationOrigin = LicenseInformationOrigin.Expression
+        });
+        Licenses.Add(new LicenseInfo()
+        {
+            PackageId = "tenderlove/profiler",
+            PackageVersion = string.Empty,
+            PackageProjectUrl = "https://github.com/tenderlove/profiler",
+            Authors = string.Empty,
+            License = "Mozilla Public License 2.0",
+            LicenseUrl = "https://github.com/tenderlove/profiler/blob/ruby/LICENSE",
+            Copyright = string.Empty,
+            LicenseInformationOrigin = LicenseInformationOrigin.Expression
+        });
+        Licenses.Add(new LicenseInfo()
+        {
             PackageId = "いらすとや",
             PackageVersion = string.Empty,
+            PackageProjectUrl = "https://www.irasutoya.com/",
             Authors = "いらすとや",
             License = string.Empty,
             LicenseUrl = "https://www.irasutoya.com/p/terms.html",
