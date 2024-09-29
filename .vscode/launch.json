@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Run Nonius",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "osx": {
+                "program": "${workspaceFolder}/src/Nonius/bin/osx-arm64/Debug/net8.0/Nonius.dll",
+            },
+            "windows": {
+                "program": "${workspaceFolder}/src/Nonius/bin/win-x64/Debug/net8.0/Nonius.dll",
+            },
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "justMyCode": false,
+        }
+    ]
+}

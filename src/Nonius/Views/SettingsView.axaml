@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Nonius.ViewModels"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
+             xmlns:icm="using:FluentIcons.Avalonia.Fluent.MarkupExtensions"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:SettingsViewModel"
+             x:Class="Nonius.Views.SettingsView">
+    <Design.DataContext>
+        <vm:SettingsViewModel/>
+    </Design.DataContext>
+
+    <DockPanel Margin="20">
+        <StackPanel DockPanel.Dock="Top" Margin="0 0 0 20">
+            <TextBlock Text="Settings" Theme="{StaticResource TitleTextBlockStyle}" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Save" Classes="accent" Command="{Binding SaveSettingsCommand}" />
+        </StackPanel>
+
+        <StackPanel>
+            <ui:SettingsExpander
+                Header="Profile viewer pane width (%)"
+                Description="Default is 80%"
+                IconSource="{icm:SymbolIconSourceExtension Symbol=PanelRightExpand}">
+                <ui:SettingsExpander.Footer>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ViewerPaneWidthRatio.Value, Mode=OneWay, StringFormat={}{0}%}" VerticalAlignment="Center" Margin="0 0 10 0" />
+                        <Slider Value="{Binding ViewerPaneWidthRatio.Value}" Width="150" Minimum="5" Maximum="95" />
+                    </StackPanel>
+                </ui:SettingsExpander.Footer>
+            </ui:SettingsExpander>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

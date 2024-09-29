@@ -1,0 +1,12 @@
+{
+    "[csharp]": {
+        "editor.maxTokenizationLineLength": 2500,
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "ms-dotnettools.csharp",
+    },
+    "[AXAML]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "AvaloniaTeam.vscode-avalonia",
+    },
+    "csharp.preview.improvedLaunchExperience": true,
+}

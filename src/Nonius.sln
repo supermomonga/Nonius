@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nonius", "Nonius\Nonius.csproj", "{B736BE92-2438-443A-A23D-9447AADFFA0F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|AnyCPU = Release|AnyCPU
+		Debug|AnyCPU = Debug|AnyCPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B736BE92-2438-443A-A23D-9447AADFFA0F}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{B736BE92-2438-443A-A23D-9447AADFFA0F}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{B736BE92-2438-443A-A23D-9447AADFFA0F}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{B736BE92-2438-443A-A23D-9447AADFFA0F}.Release|AnyCPU.Build.0 = Release|AnyCPU
+	EndGlobalSection
+EndGlobal

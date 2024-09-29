@@ -1,0 +1,53 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Nonius.ViewModels"
+        xmlns:v="using:Nonius.Views"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="using:FluentAvalonia.UI.Controls"
+        xmlns:epoxy="using:Epoxy"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Nonius.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        epoxy:Fountain.Well="{Binding MainWindowWell}"
+        Icon="/Assets/nonius.ico"
+        WindowStartupLocation="CenterScreen"
+        Title="{Binding WindowTitle.Value}">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Grid>
+        <WindowNotificationManager
+            ZIndex="1000"
+            Position="BottomRight"
+            epoxy:Anchor.Pile="{Binding NotificationManagerPile}" />
+
+        <ui:NavigationView
+            DockPanel.Dock="Left"
+            OpenPaneLength="180"
+            PaneDisplayMode="Left"
+            IsPaneOpen="False"
+            IsSettingsVisible="False"
+            SelectedItem="{Binding SelectedMenuItem.Value}">
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem Content="Monitoring" Tag="Monitoring" IconSource="Play" IsSelected="True" />
+                <ui:NavigationViewItem Content="Projects" Tag="Projects" IconSource="Folder" />
+            </ui:NavigationView.MenuItems>
+            <ui:NavigationView.FooterMenuItems>
+                <ui:NavigationViewItem Content="Version" Tag="VersionInfo" IconSource="CloudDownload" />
+                <ui:NavigationViewItem Content="Settings" Tag="Settings" IconSource="Setting" />
+            </ui:NavigationView.FooterMenuItems>
+
+            <DockPanel>
+                <ui:Frame
+                    epoxy:Anchor.Pile="{Binding ContentFramePile}"
+                    Content="{Binding ContentViewModel.Value}" />
+            </DockPanel>
+        </ui:NavigationView>
+    </Grid>
+
+</Window>

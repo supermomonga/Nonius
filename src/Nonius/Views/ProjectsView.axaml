@@ -1,0 +1,109 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Nonius.ViewModels"
+             xmlns:epoxy="using:Epoxy"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
+             xmlns:icm="using:FluentIcons.Avalonia.Fluent.MarkupExtensions"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:ProjectsViewModel"
+             x:Class="Nonius.Views.ProjectsView">
+    <Design.DataContext>
+        <vm:ProjectsViewModel/>
+    </Design.DataContext>
+    <SplitView
+        epoxy:Fountain.Well="{Binding SplitViewWell}"
+        IsPaneOpen="{Binding ShowEditPane.Value}"
+        DisplayMode="Overlay"
+        PanePlacement="Right"
+        PaneBackground="Transparent"
+        OpenPaneLength="600">
+        <SplitView.Pane>
+            <Border
+                Background="{DynamicResource SolidBackgroundFillColorBase}"
+                Margin="10 0 0 0"
+                BoxShadow="0 0 10 0 DarkGray"
+                DataContext="{Binding SelectedProject.Value}">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Margin="20">
+                        <TextBlock Text="{Binding Name.Value, StringFormat='Edit {0}'}" Theme="{StaticResource TitleTextBlockStyle}" />
+                    </StackPanel>
+
+                    <Border DockPanel.Dock="Bottom" Margin="0 20 0 0">
+                        <StackPanel Margin="10" HorizontalAlignment="Right" Orientation="Horizontal">
+                            <!-- <Button Content="Cancel" /> -->
+                            <Button Content="Save" Classes="accent" Command="{Binding $parent[UserControl].((vm:ProjectsViewModel)DataContext).SaveSelectedProjectCommand}" />
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel
+                        Margin="20 0 20 0"
+                        Spacing="10">
+                        <ui:SettingsExpander
+                            Header="Name"
+                            Description="Project name"
+                            IconSource="{icm:SymbolIconSourceExtension Symbol=Folder}">
+                            <ui:SettingsExpander.Footer>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Text="{Binding Name.Value}" Width="300" />
+                                </StackPanel>
+                            </ui:SettingsExpander.Footer>
+                        </ui:SettingsExpander>
+
+                        <ui:SettingsExpander
+                            Header="Profile data dir"
+                            Description="Location of profile data json files"
+                            IconSource="{icm:SymbolIconSourceExtension Symbol=DataUsage}">
+                            <ui:SettingsExpander.Footer>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Text="{Binding ProfileDataDir.Value}" Width="300" />
+                                </StackPanel>
+                            </ui:SettingsExpander.Footer>
+                        </ui:SettingsExpander>
+
+                        <ui:SettingsExpander
+                            Header="Source code dir"
+                            Description="Location of source code files"
+                            IconSource="{icm:SymbolIconSourceExtension Symbol=Code}">
+                            <ui:SettingsExpander.Footer>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Text="{Binding SourceCodeDir.Value}" Width="300" />
+                                </StackPanel>
+                            </ui:SettingsExpander.Footer>
+                        </ui:SettingsExpander>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+        </SplitView.Pane>
+
+        <DockPanel>
+            <StackPanel Margin="20" DockPanel.Dock="Top">
+                <TextBlock Text="Projects" Theme="{StaticResource TitleTextBlockStyle}" />
+            </StackPanel>
+
+            <StackPanel Margin="20 0 20 20" DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10">
+                <Button Content="Add new project" Command="{Binding AddProjectCommand}" />
+            </StackPanel>
+
+            <DataGrid
+                ItemsSource="{Binding ProjectsView, Mode=OneWay}"
+                SelectedItem="{Binding SelectedProject.Value}"
+                IsReadOnly="True"
+                SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name.Value, Mode=OneWay}" />
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding $parent[UserControl].((vm:ProjectsViewModel)DataContext).RemoveProjectCommand}" CommandParameter="{Binding}">
+                                    <ui:SymbolIcon Symbol="Delete" />
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </SplitView>
+</UserControl>
