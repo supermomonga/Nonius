@@ -64,7 +64,7 @@ public partial class App : Application
                 services.AddSingleton<MonitoringViewModel>();
                 services.AddSingleton<ProjectsViewModel>();
                 services.AddSingleton<SettingsViewModel>();
-                services.AddSingleton<VersionInfoViewModel>();
+                services.AddSingleton<AboutViewModel>();
 
                 services.AddSingleton<Preferences>();
             });

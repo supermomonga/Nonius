@@ -28,7 +28,7 @@ public partial class MainWindowViewModel : ViewModelBase
     private readonly MonitoringViewModel _MonitoringViewModel;
     private readonly ProjectsViewModel _ProjectsViewModel;
     private readonly SettingsViewModel _SettingsViewModel;
-    private readonly VersionInfoViewModel _VersionInfoViewModel;
+    private readonly AboutViewModel _AboutViewModel;
 
     public Pile<WindowNotificationManager> NotificationManagerPile => _Context.NotificationManagerPile;
 
@@ -38,7 +38,7 @@ public partial class MainWindowViewModel : ViewModelBase
         _Context = serviceProvider.GetRequiredService<ApplicationContextViewModel>();
         _MonitoringViewModel = serviceProvider.GetRequiredService<MonitoringViewModel>();
         _ProjectsViewModel = serviceProvider.GetRequiredService<ProjectsViewModel>();
-        _VersionInfoViewModel = serviceProvider.GetRequiredService<VersionInfoViewModel>();
+        _AboutViewModel = serviceProvider.GetRequiredService<AboutViewModel>();
         _SettingsViewModel = serviceProvider.GetRequiredService<SettingsViewModel>();
 
         ContentViewModel.Value = _MonitoringViewModel;
@@ -77,8 +77,8 @@ public partial class MainWindowViewModel : ViewModelBase
             case "Settings":
                 ContentViewModel.Value = _SettingsViewModel;
                 break;
-            case "VersionInfo":
-                ContentViewModel.Value = _VersionInfoViewModel;
+            case "About":
+                ContentViewModel.Value = _AboutViewModel;
                 break;
         }
     }

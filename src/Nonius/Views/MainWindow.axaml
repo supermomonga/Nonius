@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="using:FluentAvalonia.UI.Controls"
         xmlns:epoxy="using:Epoxy"
+        xmlns:icm="using:FluentIcons.Avalonia.Fluent.MarkupExtensions"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Nonius.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -38,7 +39,7 @@
                 <ui:NavigationViewItem Content="Projects" Tag="Projects" IconSource="Folder" />
             </ui:NavigationView.MenuItems>
             <ui:NavigationView.FooterMenuItems>
-                <ui:NavigationViewItem Content="Version" Tag="VersionInfo" IconSource="CloudDownload" />
+                <ui:NavigationViewItem Content="About" Tag="About" IconSource="{icm:SymbolIconSourceExtension Symbol=Info}" />
                 <ui:NavigationViewItem Content="Settings" Tag="Settings" IconSource="Setting" />
             </ui:NavigationView.FooterMenuItems>
 

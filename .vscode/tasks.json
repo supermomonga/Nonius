@@ -48,6 +48,14 @@
                 ]
             },
             "dependsOn": "release",
+        },
+        {
+            "label": "generate license info",
+            "command": "sh",
+            "type": "process",
+            "args": [
+                "${workspaceFolder}/src/generate-license-info.sh"
+            ]
         }
     ]
 }

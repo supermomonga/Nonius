@@ -1,0 +1,88 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Nonius.ViewModels"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
+             xmlns:icm="using:FluentIcons.Avalonia.Fluent.MarkupExtensions"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:AboutViewModel"
+             x:Class="Nonius.Views.AboutView">
+    <Design.DataContext>
+        <vm:AboutViewModel/>
+    </Design.DataContext>
+
+    <DockPanel>
+        <StackPanel Margin="20" DockPanel.Dock="Top" Orientation="Horizontal">
+            <TextBlock
+                Text="Nonius"
+                Theme="{StaticResource TitleTextBlockStyle}" />
+            <StackPanel
+                VerticalAlignment="Center"
+                Margin="10 0 0 0">
+                <TextBlock Text="Version 0.0.1" />
+            </StackPanel>
+        </StackPanel>
+
+        <ScrollViewer
+            Padding="20 0 20 20">
+            <ItemsControl
+                ItemsSource="{Binding Licenses}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ui:SettingsExpander
+                            Margin="0 0 0 10">
+                            <ui:SettingsExpander.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Text="{Binding PackageId}" />
+                                    <TextBlock
+                                        IsVisible="{Binding PackageVersion, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                        Text="{Binding PackageVersion, StringFormat='v{0}'}"
+                                        Foreground="{StaticResource TextFillColorSecondaryBrush}"
+                                        Theme="{StaticResource CaptionTextBlockStyle}" />
+                                </StackPanel>
+                            </ui:SettingsExpander.Header>
+                            <ui:SettingsExpanderItem
+                                Content="Authors">
+                                <ui:SettingsExpanderItem.Footer>
+                                    <TextBlock Text="{Binding Authors}" />
+                                </ui:SettingsExpanderItem.Footer>
+                            </ui:SettingsExpanderItem>
+                            <ui:SettingsExpanderItem
+                                IsVisible="{Binding PackageProjectUrl, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                Content="Website">
+                                <ui:SettingsExpanderItem.Footer>
+                                    <HyperlinkButton
+                                        Content="{Binding PackageProjectUrl}"
+                                        NavigateUri="{Binding PackageProjectUrl}" />
+                                </ui:SettingsExpanderItem.Footer>
+                            </ui:SettingsExpanderItem>
+                            <ui:SettingsExpanderItem Content="License">
+                                <ui:SettingsExpanderItem.Footer>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            IsVisible="{Binding License, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                            Text="{Binding License}" />
+                                        <HyperlinkButton
+                                            IsVisible="{Binding LicenseUrl, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                            Content="{Binding LicenseUrl}"
+                                            NavigateUri="{Binding LicenseUrl}" />
+                                    </StackPanel>
+                                </ui:SettingsExpanderItem.Footer>
+                            </ui:SettingsExpanderItem>
+                            <ui:SettingsExpanderItem
+                                IsVisible="{Binding Copyright, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                Content="Copyright">
+                                <ui:SettingsExpanderItem.Footer>
+                                    <TextBlock Text="{Binding Copyright}" />
+                                </ui:SettingsExpanderItem.Footer>
+                            </ui:SettingsExpanderItem>
+                        </ui:SettingsExpander>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

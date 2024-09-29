@@ -1,0 +1,228 @@
+[
+  {
+    "PackageId": "Avalonia",
+    "PackageVersion": "11.1.3",
+    "PackageProjectUrl": "https://avaloniaui.net/",
+    "Copyright": "Copyright 2013-2024 \u00A9 The AvaloniaUI Project",
+    "Authors": "Avalonia Team",
+    "License": "MIT",
+    "LicenseUrl": "https://licenses.nuget.org/MIT",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "Avalonia.Controls.DataGrid",
+    "PackageVersion": "11.1.3",
+    "PackageProjectUrl": "https://avaloniaui.net/",
+    "Copyright": "Copyright 2013-2024 \u00A9 The AvaloniaUI Project",
+    "Authors": "Avalonia Team",
+    "License": "MIT",
+    "LicenseUrl": "https://licenses.nuget.org/MIT",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "Avalonia.Desktop",
+    "PackageVersion": "11.1.3",
+    "PackageProjectUrl": "https://avaloniaui.net/",
+    "Copyright": "Copyright 2013-2024 \u00A9 The AvaloniaUI Project",
+    "Authors": "Avalonia Team",
+    "License": "MIT",
+    "LicenseUrl": "https://licenses.nuget.org/MIT",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "Avalonia.Diagnostics",
+    "PackageVersion": "11.1.3",
+    "PackageProjectUrl": "https://avaloniaui.net/",
+    "Copyright": "Copyright 2013-2024 \u00A9 The AvaloniaUI Project",
+    "Authors": "Avalonia Team",
+    "License": "MIT",
+    "LicenseUrl": "https://licenses.nuget.org/MIT",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "Avalonia.Fonts.Inter",
+    "PackageVersion": "11.1.3",
+    "PackageProjectUrl": "https://avaloniaui.net/",
+    "Copyright": "Copyright 2013-2024 \u00A9 The AvaloniaUI Project",
+    "Authors": "Avalonia Team",
+    "License": "MIT",
+    "LicenseUrl": "https://licenses.nuget.org/MIT",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "Avalonia.Markup.Xaml.Loader",
+    "PackageVersion": "11.1.3",
+    "PackageProjectUrl": "https://avaloniaui.net/",
+    "Copyright": "Copyright 2013-2024 \u00A9 The AvaloniaUI Project",
+    "Authors": "Avalonia Team",
+    "License": "MIT",
+    "LicenseUrl": "https://licenses.nuget.org/MIT",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "Avalonia.Themes.Fluent",
+    "PackageVersion": "11.1.3",
+    "PackageProjectUrl": "https://avaloniaui.net/",
+    "Copyright": "Copyright 2013-2024 \u00A9 The AvaloniaUI Project",
+    "Authors": "Avalonia Team",
+    "License": "MIT",
+    "LicenseUrl": "https://licenses.nuget.org/MIT",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "CommunityToolkit.Mvvm",
+    "PackageVersion": "8.3.2",
+    "PackageProjectUrl": "https://github.com/CommunityToolkit/dotnet",
+    "Copyright": "(c) .NET Foundation and Contributors. All rights reserved.",
+    "Authors": "Microsoft",
+    "License": "MIT",
+    "LicenseUrl": "https://licenses.nuget.org/MIT",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "Epoxy.Avalonia11",
+    "PackageVersion": "1.15.0",
+    "PackageProjectUrl": "https://github.com/kekyo/Epoxy.git",
+    "Copyright": "Copyright (c) Kouji Matsui",
+    "Authors": "Kouji Matsui (@kozy_kekyo, @kekyo@mastodon.cloud)",
+    "License": "Apache-2.0",
+    "LicenseUrl": "https://licenses.nuget.org/Apache-2.0",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "FluentAvaloniaUI",
+    "PackageVersion": "2.1.0",
+    "Authors": "FluentAvalonia",
+    "License": "MIT",
+    "LicenseUrl": "https://licenses.nuget.org/MIT",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "FluentIcons.Avalonia.Fluent",
+    "PackageVersion": "1.1.258",
+    "Authors": "davidxuang",
+    "License": "MIT",
+    "LicenseUrl": "https://licenses.nuget.org/MIT",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "HotAvalonia",
+    "PackageVersion": "1.1.1",
+    "PackageProjectUrl": "https://github.com/Kir-Antipov/HotAvalonia",
+    "Copyright": "Copyright \u00A9 2023-2024 Kir_Antipov",
+    "Authors": "Kir_Antipov",
+    "ValidationErrors": [
+      {
+        "Error": "Validation for licenses of type File not yet supported",
+        "Context": "/Users/code/ghq/github.com/supermomonga/Nonius/src/Nonius/Nonius.csproj"
+      }
+    ],
+    "LicenseUrl": "https://aka.ms/deprecateLicenseUrl",
+    "LicenseInformationOrigin": 2
+  },
+  {
+    "PackageId": "HotAvalonia.Extensions",
+    "PackageVersion": "1.1.1",
+    "PackageProjectUrl": "https://github.com/Kir-Antipov/HotAvalonia",
+    "Copyright": "Copyright \u00A9 2023-2024 Kir_Antipov",
+    "Authors": "Kir_Antipov",
+    "ValidationErrors": [
+      {
+        "Error": "Validation for licenses of type File not yet supported",
+        "Context": "/Users/code/ghq/github.com/supermomonga/Nonius/src/Nonius/Nonius.csproj"
+      }
+    ],
+    "LicenseUrl": "https://aka.ms/deprecateLicenseUrl",
+    "LicenseInformationOrigin": 2
+  },
+  {
+    "PackageId": "Microsoft.Extensions.Hosting",
+    "PackageVersion": "8.0.0",
+    "PackageProjectUrl": "https://dot.net/",
+    "Copyright": "\u00A9 Microsoft Corporation. All rights reserved.",
+    "Authors": "Microsoft",
+    "License": "MIT",
+    "LicenseUrl": "https://licenses.nuget.org/MIT",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "ObservableCollections",
+    "PackageVersion": "3.0.4",
+    "PackageProjectUrl": "https://github.com/Cysharp/ObservableCollections",
+    "Copyright": "\u00A9 Cysharp, Inc.",
+    "Authors": "Cysharp",
+    "License": "MIT",
+    "LicenseUrl": "https://licenses.nuget.org/MIT",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "ObservableCollections.R3",
+    "PackageVersion": "3.0.4",
+    "PackageProjectUrl": "https://github.com/Cysharp/ObservableCollections",
+    "Copyright": "\u00A9 Cysharp, Inc.",
+    "Authors": "Cysharp",
+    "License": "MIT",
+    "LicenseUrl": "https://licenses.nuget.org/MIT",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "R3",
+    "PackageVersion": "1.2.8",
+    "PackageProjectUrl": "https://github.com/Cysharp/R3",
+    "Copyright": "\u00A9 Cysharp, Inc.",
+    "Authors": "Cysharp",
+    "License": "MIT",
+    "LicenseUrl": "https://licenses.nuget.org/MIT",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "R3Extensions.Avalonia",
+    "PackageVersion": "1.2.8",
+    "PackageProjectUrl": "https://github.com/Cysharp/R3",
+    "Copyright": "\u00A9 Cysharp, Inc.",
+    "Authors": "Cysharp",
+    "License": "MIT",
+    "LicenseUrl": "https://licenses.nuget.org/MIT",
+    "LicenseInformationOrigin": 0
+  },
+  {
+    "PackageId": "RubyFlavor",
+    "PackageVersion": "0.0.7",
+    "Copyright": "supermomonga",
+    "Authors": "RubyFlavor",
+    "ValidationErrors": [
+      {
+        "Error": "No license information found",
+        "Context": "/Users/code/ghq/github.com/supermomonga/Nonius/src/Nonius/Nonius.csproj"
+      }
+    ],
+    "LicenseInformationOrigin": 2
+  },
+  {
+    "PackageId": "Sandreas.Avalonia.Preferences",
+    "PackageVersion": "0.0.3",
+    "PackageProjectUrl": "https://github.com/sandreas/Avalonia.Preferences.git",
+    "Authors": "sandreas",
+    "ValidationErrors": [
+      {
+        "Error": "No license information found",
+        "Context": "/Users/code/ghq/github.com/supermomonga/Nonius/src/Nonius/Nonius.csproj"
+      }
+    ],
+    "LicenseInformationOrigin": 2
+  },
+  {
+    "PackageId": "WebViewControl-Avalonia-ARM64",
+    "PackageVersion": "3.120.5",
+    "PackageProjectUrl": "https://github.com/OutSystems/WebView",
+    "Copyright": "Copyright \u00A9 OutSystems 2023",
+    "Authors": "OutSystems",
+    "ValidationErrors": [
+      {
+        "Error": "No license information found",
+        "Context": "/Users/code/ghq/github.com/supermomonga/Nonius/src/Nonius/Nonius.csproj"
+      }
+    ],
+    "LicenseInformationOrigin": 2
+  }
+]
