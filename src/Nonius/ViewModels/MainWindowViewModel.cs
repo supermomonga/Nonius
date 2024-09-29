@@ -44,11 +44,14 @@ public partial class MainWindowViewModel : ViewModelBase
         ContentViewModel.Value = _MonitoringViewModel;
         SelectedMenuItem.Subscribe(OnSelectedMenuItemChanged);
 
-
-        // TODO: Invalidate title also when current project name is changed
-        WindowTitle = _Context.SelectedProject.Select(
-            p => p == null ? "Nonius" : $"Nonius - {p.Name.Value}"
-        ).ToBindableReactiveProperty(initialValue: "Nonius");
+        WindowTitle =
+            _Context.
+            SelectedProject.
+            WhereNotNull().
+            Select(p => p.Name.AsObservable()).
+            Switch().
+            Select(name => $"Nonius - {name}").
+            ToBindableReactiveProperty(initialValue: "Nonius");
 
         // Load settings on startup
         MainWindowWell.Add(Control.LoadedEvent, async () => await _Context.LoadSettingsAsync());
