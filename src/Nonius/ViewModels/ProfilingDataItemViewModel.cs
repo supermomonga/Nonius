@@ -5,7 +5,7 @@ using Nonius.Models.Vernier;
 
 namespace Nonius.ViewModels;
 
-public partial class ProfilingDataItemViewModel : ViewModelBase, IComparable<ProfilingDataItemViewModel>
+public partial class ProfilingDataItemViewModel : ViewModelBase, IComparable<ProfilingDataItemViewModel>, IEquatable<ProfilingDataItemViewModel>
 {
     public required string DataFilePath { get; init; }
 
@@ -87,4 +87,12 @@ public partial class ProfilingDataItemViewModel : ViewModelBase, IComparable<Pro
     }
 
     #endregion IComparable
+
+    #region IEquatable
+    public bool Equals(ProfilingDataItemViewModel? other)
+    {
+        return other != null && DataFilePath.Equals(other.DataFilePath);
+    }
+
+    #endregion IEquatable
 }

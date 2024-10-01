@@ -5,6 +5,7 @@ using WebViewControl;
 using Epoxy.Synchronized;
 using Nonius.Models.Vernier;
 using Avalonia.Controls;
+using System.Threading;
 
 namespace Nonius.ViewModels;
 
@@ -36,14 +37,20 @@ public partial class MonitoringViewModel : ViewModelBase
     private FileSystemWatcher? _Watcher;
     public MonitoringViewModel(ApplicationContextViewModel context)
     {
+        System.Console.WriteLine($"Thread: {Environment.CurrentManagedThreadId}");
         _Context = context;
-        ProjectsView = _Context.Projects.ToNotifyCollectionChanged();
+        ProjectsView = _Context.Projects.ToNotifyCollectionChanged(SynchronizationContextCollectionEventDispatcher.Current);
 
         ProfilingDataList = [];
-        ProfilingDataListView = ProfilingDataList.CreateView(x => x).ToNotifyCollectionChanged();
+        ProfilingDataListView = ProfilingDataList.CreateView(x => x).ToNotifyCollectionChanged(SynchronizationContextCollectionEventDispatcher.Current);
         LogDirectoryPath = SelectedProject.WhereNotNull().Select(x => x.ProfileDataDir.AsObservable()).Switch().ToBindableReactiveProperty(string.Empty);
         IsValidLogDirectoryPath = LogDirectoryPath.Select(Directory.Exists);
-        LogDirectoryPath.Subscribe(async path => await OnLogDirectoryPathChanged(path));
+        LogDirectoryPath.Subscribe(path => OnLogDirectoryPathChanged(path));
+
+        Observable.Interval(TimeSpan.FromSeconds(1)).Select((_, i) => i).SubscribeAwait(async (x, ct) =>
+        {
+            await InvalidateProfilingDataListAsync(ct);
+        });
 
         SelectedProfilingData.Subscribe(x =>
         {
@@ -79,77 +86,49 @@ public partial class MonitoringViewModel : ViewModelBase
         });
     }
 
-    private async Task OnLogDirectoryPathChanged(string path)
+    private async Task InvalidateProfilingDataListAsync(CancellationToken ct = default)
     {
-        if (_Watcher != null)
+        if (Directory.Exists(LogDirectoryPath.Value))
         {
-            var old = _Watcher;
-            _Watcher = null;
-            old.Dispose();
-        }
-        ProfilingDataList.Clear();
-        if (Directory.Exists(path))
-        {
-            // Invalidate the list of log files
-            var files = Directory.GetFiles(LogDirectoryPath.Value, "*.json");
-            var ps = await Task.WhenAll(
-                files.AsParallel().Select(async file =>
-                {
-                    try
-                    {
-                        var data = await JsonSerializer.DeserializeAsync<ProfilingData>(File.OpenRead(file)).ConfigureAwait(false);
-                        return data == null
-                            ? null
-                            : new ProfilingDataItemViewModel()
-                            {
-                                DataFilePath = file,
-                                Data = data
-                            };
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-                })
-            );
-            ProfilingDataList.AddRange(ps.Compact());
-            ProfilingDataList.Sort();
-            ProfilingDataList.Reverse();
-
-            // FS Watcher
-            var watcher = new FileSystemWatcher
+            var files = await Task.Run(() => Directory.GetFiles(LogDirectoryPath.Value, "*.json"));
+            if (files.Length != 0)
             {
-                Path = path,
-                NotifyFilter =
-                    NotifyFilters.Attributes |
-                    NotifyFilters.CreationTime |
-                    NotifyFilters.DirectoryName |
-                    NotifyFilters.FileName |
-                    NotifyFilters.LastAccess |
-                    NotifyFilters.LastWrite |
-                    NotifyFilters.Security |
-                    NotifyFilters.Size,
-                Filter = "*.json"
-            };
-            watcher.Created += OnProfilingDataFileCreated;
-            watcher.EnableRaisingEvents = true;
-            _Watcher = watcher;
+                var ps = await Task.WhenAll(
+                    files.AsParallel().Select(async file =>
+                    {
+                        try
+                        {
+                            var data = await JsonSerializer.DeserializeAsync<ProfilingData>(File.OpenRead(file));
+                            return data == null
+                                ? null
+                                : new ProfilingDataItemViewModel()
+                                {
+                                    DataFilePath = file,
+                                    Data = data
+                                };
+                        }
+                        catch
+                        {
+                            return null;
+                        }
+                    })
+                );
+                var nps = ps.Compact().Where(x => !ProfilingDataList.Contains(x));
+                if (nps.Any())
+                {
+
+                    System.Console.WriteLine("Add pdl");
+                    ProfilingDataList.AddRange(nps);
+                    //ProfilingDataList.Sort();
+                    //ProfilingDataList.Reverse();
+                }
+            }
         }
     }
 
-    private void OnProfilingDataFileCreated(object sender, FileSystemEventArgs e)
+    private void OnLogDirectoryPathChanged(string path)
     {
-        try
-        {
-            var data = JsonSerializer.Deserialize<ProfilingData>(File.OpenRead(e.FullPath));
-            if (data != null)
-            {
-                ProfilingDataList.Add(new ProfilingDataItemViewModel() { DataFilePath = e.FullPath, Data = data });
-                ProfilingDataList.Sort();
-                ProfilingDataList.Reverse();
-            }
-        }
-        catch { }
+        ProfilingDataList.Clear();
     }
 
     public void BeforeResourceLoadHandler(ResourceHandler handler)
