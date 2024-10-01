@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:conv="using:Nonius.Converters"
+             xmlns:local="using:Nonius.Controls"
+             xmlns:net="using:System.Net"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Nonius.Controls.HttpStatusCodeControl">
+    <StackPanel
+        x:DataType="local:HttpStatusCodeControl"
+        DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
+        Orientation="Horizontal"
+        VerticalAlignment="Center">
+        <Border
+            Background="{Binding StatusCode, Mode=OneWay, Converter={x:Static conv:HttpStatusCodeConverters.ToBackgroundColor}}"
+            CornerRadius="5 0 0 5"
+            Padding="5 3">
+            <TextBlock
+                Text="{Binding StatusCode, Mode=OneWay, FallbackValue='___', Converter={x:Static conv:EnumConverters.IntValue}}"
+                Foreground="White" />
+        </Border>
+        <Border
+            Background="LightGray"
+            CornerRadius="0 5 5 0"
+            Padding="5 3">
+            <TextBlock Text="{Binding StatusCode, Mode=OneWay, FallbackValue=UNKNOWN}" />
+        </Border>
+    </StackPanel>
+</UserControl>

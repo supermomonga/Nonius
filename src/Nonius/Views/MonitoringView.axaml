@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Nonius.ViewModels"
+             xmlns:controls="using:Nonius.Controls"
              xmlns:webview="clr-namespace:WebViewControl;assembly=WebViewControl.Avalonia"
              xmlns:ui="using:FluentAvalonia.UI.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -84,7 +85,13 @@
                     <DataGridTextColumn Header="Resource" Binding="{Binding ResourceName, Mode=OneWay, FallbackValue=UNKNOWN}" />
                     <DataGridTextColumn Header="Duration" Binding="{Binding DurationInMilliseconds, Mode=OneWay, StringFormat={}{0} ms}" />
                     <DataGridTextColumn Header="Method" Binding="{Binding HttpMethod, Mode=OneWay, FallbackValue=UNKNOWN}" />
-                    <DataGridTextColumn Header="Status" Binding="{Binding HttpStatusCode, Mode=OneWay, FallbackValue=UNKNOWN}" />
+                    <DataGridTemplateColumn Header="Status">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <controls:HttpStatusCodeControl Margin="10 0" StatusCode="{Binding HttpStatusCode, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
