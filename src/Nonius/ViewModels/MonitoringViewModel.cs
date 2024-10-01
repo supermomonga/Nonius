@@ -133,15 +133,25 @@ public partial class MonitoringViewModel : ViewModelBase
             {
                 EnableRaisingEvents = true,
                 IncludeSubdirectories = false,
-                NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.CreationTime
+                NotifyFilter =
+                    NotifyFilters.Attributes |
+                    NotifyFilters.CreationTime |
+                    NotifyFilters.DirectoryName |
+                    NotifyFilters.FileName |
+                    NotifyFilters.LastAccess |
+                    NotifyFilters.LastWrite |
+                    NotifyFilters.Security |
+                    NotifyFilters.Size
             };
             _Watcher.Created += OnProfileDataCreated;
+            _Watcher.Deleted += OnProfileDataDeleted;
+            _Watcher.Renamed += OnProfileDataRenamed;
         }
     }
 
     private void OnProfileDataCreated(object sender, FileSystemEventArgs e)
     {
-        if (e.ChangeType == WatcherChangeTypes.Created)
+        try
         {
             var data = JsonSerializer.Deserialize<ProfilingData>(File.OpenRead(e.FullPath));
             if (data != null)
@@ -151,6 +161,31 @@ public partial class MonitoringViewModel : ViewModelBase
                     DataFilePath = e.FullPath,
                     Data = data
                 });
+            }
+        }
+        catch { }
+    }
+
+    private void OnProfileDataDeleted(object sender, FileSystemEventArgs e)
+    {
+        lock (ProfilingDataList.SyncRoot)
+        {
+            var item = ProfilingDataList.FirstOrDefault(x => x.DataFilePath == e.FullPath);
+            if (item != null)
+            {
+                ProfilingDataList.Remove(item);
+            }
+        }
+    }
+
+    private void OnProfileDataRenamed(object sender, RenamedEventArgs e)
+    {
+        lock (ProfilingDataList.SyncRoot)
+        {
+            var item = ProfilingDataList.FirstOrDefault(x => x.DataFilePath == e.OldFullPath);
+            if (item != null)
+            {
+                item.DataFilePath = e.FullPath;
             }
         }
     }

@@ -7,7 +7,7 @@ namespace Nonius.ViewModels;
 
 public partial class ProfilingDataItemViewModel : ViewModelBase, IComparable<ProfilingDataItemViewModel>, IEquatable<ProfilingDataItemViewModel>
 {
-    public required string DataFilePath { get; init; }
+    public required string DataFilePath { get; set; }
 
     public required ProfilingData Data { get; init; }
 
