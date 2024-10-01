@@ -62,6 +62,7 @@
                             </ui:SettingsExpander.Footer>
                         </ui:SettingsExpander>
 
+                        <!-- TODO: code jump
                         <ui:SettingsExpander
                             Header="Source code dir"
                             Description="Location of source code files"
@@ -72,6 +73,7 @@
                                 </StackPanel>
                             </ui:SettingsExpander.Footer>
                         </ui:SettingsExpander>
+                        -->
                     </StackPanel>
                 </DockPanel>
             </Border>
