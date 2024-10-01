@@ -45,12 +45,7 @@ public partial class MonitoringViewModel : ViewModelBase
         ProfilingDataListView = ProfilingDataList.CreateView(x => x).ToNotifyCollectionChanged(SynchronizationContextCollectionEventDispatcher.Current);
         LogDirectoryPath = SelectedProject.WhereNotNull().Select(x => x.ProfileDataDir.AsObservable()).Switch().ToBindableReactiveProperty(string.Empty);
         IsValidLogDirectoryPath = LogDirectoryPath.Select(Directory.Exists);
-        LogDirectoryPath.Subscribe(path => OnLogDirectoryPathChanged(path));
-
-        Observable.Interval(TimeSpan.FromSeconds(1)).Select((_, i) => i).SubscribeAwait(async (x, ct) =>
-        {
-            await InvalidateProfilingDataListAsync(ct);
-        });
+        LogDirectoryPath.SubscribeAwait(async (path, ct) => await OnLogDirectoryPathChangedAsync(path, ct));
 
         SelectedProfilingData.Subscribe(x =>
         {
@@ -86,11 +81,11 @@ public partial class MonitoringViewModel : ViewModelBase
         });
     }
 
-    private async Task InvalidateProfilingDataListAsync(CancellationToken ct = default)
+    private async Task InvalidateProfilingDataListAsync(string path, CancellationToken ct = default)
     {
-        if (Directory.Exists(LogDirectoryPath.Value))
+        if (Directory.Exists(path))
         {
-            var files = await Task.Run(() => Directory.GetFiles(LogDirectoryPath.Value, "*.json"));
+            var files = await Task.Run(() => Directory.GetFiles(path, "*.json"));
             if (files.Length != 0)
             {
                 var ps = await Task.WhenAll(
@@ -116,19 +111,48 @@ public partial class MonitoringViewModel : ViewModelBase
                 var nps = ps.Compact().Where(x => !ProfilingDataList.Contains(x));
                 if (nps.Any())
                 {
-
-                    System.Console.WriteLine("Add pdl");
-                    ProfilingDataList.AddRange(nps);
-                    //ProfilingDataList.Sort();
-                    //ProfilingDataList.Reverse();
+                    ProfilingDataList.AddRange(nps.OrderByDescending(x => x.StartedAt));
                 }
             }
         }
     }
 
-    private void OnLogDirectoryPathChanged(string path)
+    private async Task OnLogDirectoryPathChangedAsync(string path, CancellationToken ct)
     {
         ProfilingDataList.Clear();
+        InvalidateLogDirectoryWatcher(path);
+        await InvalidateProfilingDataListAsync(path, ct);
+    }
+
+    private void InvalidateLogDirectoryWatcher(string path)
+    {
+        _Watcher?.Dispose();
+        if (Directory.Exists(path))
+        {
+            _Watcher = new FileSystemWatcher(path, "*.json")
+            {
+                EnableRaisingEvents = true,
+                IncludeSubdirectories = false,
+                NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.CreationTime
+            };
+            _Watcher.Created += OnProfileDataCreated;
+        }
+    }
+
+    private void OnProfileDataCreated(object sender, FileSystemEventArgs e)
+    {
+        if (e.ChangeType == WatcherChangeTypes.Created)
+        {
+            var data = JsonSerializer.Deserialize<ProfilingData>(File.OpenRead(e.FullPath));
+            if (data != null)
+            {
+                ProfilingDataList.Insert(0, new ProfilingDataItemViewModel()
+                {
+                    DataFilePath = e.FullPath,
+                    Data = data
+                });
+            }
+        }
     }
 
     public void BeforeResourceLoadHandler(ResourceHandler handler)
