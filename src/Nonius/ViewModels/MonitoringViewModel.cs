@@ -6,6 +6,7 @@ using Epoxy.Synchronized;
 using Nonius.Models.Vernier;
 using Avalonia.Controls;
 using System.Threading;
+using System.Web;
 
 namespace Nonius.ViewModels;
 
@@ -57,7 +58,8 @@ public partial class MonitoringViewModel : ViewModelBase
             {
                 ShowProfileViewer.Value = true;
                 var fileName = Path.GetFileName(x.DataFilePath);
-                var url = $"https://vernier.prof/from-url/http%3A%2F%2Flocalhost%2F{fileName}";
+                var fileUrl = HttpUtility.UrlEncode($"http://localhost/{fileName}");
+                var url = $"https://vernier.prof/from-url/{fileUrl}";
                 if (BrowserAddress.Value != url)
                 {
                     BrowserAddress.Value = url;
@@ -202,7 +204,7 @@ public partial class MonitoringViewModel : ViewModelBase
             !handler.Url.EndsWith(".json", StringComparison.InvariantCultureIgnoreCase))
             return;
 
-        string jsonPath = Path.Join(LogDirectoryPath.Value, handler.Url.Split('/').Last());
+        string jsonPath = Path.Join(LogDirectoryPath.Value, HttpUtility.UrlDecode(handler.Url.Split('/').Last()));
         if (!File.Exists(jsonPath))
             return;
 
