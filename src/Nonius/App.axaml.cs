@@ -26,6 +26,11 @@ public partial class App : Application
 
     public override async void OnFrameworkInitializationCompleted()
     {
+        // To disable avoid Chromium Safe Storage keychain access
+        ((List<KeyValuePair<string, string>>)WebView.Settings.CommandLineSwitches).Add(
+            new KeyValuePair<string, string>("use-mock-keychain", string.Empty)
+        );
+        WebView.Settings.PersistCache = false;
         WebView.Settings.OsrEnabled = false;
 
         var hostBuilder = CreateHostBuilder();
