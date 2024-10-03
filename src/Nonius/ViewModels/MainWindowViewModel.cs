@@ -21,6 +21,9 @@ public partial class MainWindowViewModel : ViewModelBase
     public ReactiveProperty<int> ContentAreaBoundWidth => _Context.ContentAreaBoundWidth;
 
     public Well<MainWindow> MainWindowWell { get; } = Well.Factory.Create<MainWindow>();
+    public Pile<MainWindow> MainWindowPile { get; } = Pile.Factory.Create<MainWindow>();
+    public Well<TextBlock> WindowTitleTextBlockWell { get; } = Well.Factory.Create<TextBlock>();
+    public Pile<TextBlock> WindowTitleTextBlockPile { get; } = Pile.Factory.Create<TextBlock>();
 
     public Pile<Frame> ContentFramePile { get; } = Pile.Factory.Create<Frame>();
 
@@ -62,6 +65,19 @@ public partial class MainWindowViewModel : ViewModelBase
                 ContentAreaBoundWidth.Value = (int)frame.Bounds.Width;
                 await ValueTask.CompletedTask;
             }));
+
+        // Drag window by controls placed on the title bar
+        WindowTitleTextBlockWell.Add(Control.PointerPressedEvent, ev =>
+        {
+            WindowTitleTextBlockPile.RentSync(tb =>
+            {
+                if (ev.GetCurrentPoint(tb).Properties.IsLeftButtonPressed)
+                {
+                    MainWindowPile.RentSync(win => win.BeginMoveDrag(ev));
+                }
+            });
+            return ValueTask.CompletedTask;
+        });
     }
 
     private void OnSelectedMenuItemChanged(NavigationViewItem? value)

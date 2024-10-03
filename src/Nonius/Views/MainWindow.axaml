@@ -12,6 +12,7 @@
         x:Class="Nonius.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         epoxy:Fountain.Well="{Binding MainWindowWell}"
+        epoxy:Anchor.Pile="{Binding MainWindowPile}"
         Icon="/Assets/nonius.ico"
         WindowStartupLocation="CenterScreen"
         ExtendClientAreaToDecorationsHint="True"
@@ -28,6 +29,15 @@
             ZIndex="1000"
             Position="BottomRight"
             epoxy:Anchor.Pile="{Binding NotificationManagerPile}" />
+
+        <TextBlock
+            Height="30"
+            LineHeight="30"
+            epoxy:Fountain.Well="{Binding WindowTitleTextBlockWell}"
+            epoxy:Anchor.Pile="{Binding WindowTitleTextBlockPile}"
+            Text="{Binding WindowTitle.Value}"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top" />
 
         <ui:NavigationView
             DockPanel.Dock="Left"
