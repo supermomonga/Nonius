@@ -1,3 +1,5 @@
+using Avalonia;
+
 using FluentAvalonia.UI.Windowing;
 
 namespace Nonius.Views;

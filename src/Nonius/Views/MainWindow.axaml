@@ -1,10 +1,11 @@
-<Window xmlns="https://github.com/avaloniaui"
+<win:AppWindow xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:Nonius.ViewModels"
         xmlns:v="using:Nonius.Views"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="using:FluentAvalonia.UI.Controls"
+        xmlns:win="using:FluentAvalonia.UI.Windowing"
         xmlns:epoxy="using:Epoxy"
         xmlns:icm="using:FluentIcons.Avalonia.Fluent.MarkupExtensions"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -13,6 +14,7 @@
         epoxy:Fountain.Well="{Binding MainWindowWell}"
         Icon="/Assets/nonius.ico"
         WindowStartupLocation="CenterScreen"
+        ExtendClientAreaToDecorationsHint="True"
         Title="{Binding WindowTitle.Value}">
 
     <Design.DataContext>
@@ -29,9 +31,10 @@
 
         <ui:NavigationView
             DockPanel.Dock="Left"
-            OpenPaneLength="180"
+            Margin="0 30 0 0"
+            OpenPaneLength="140"
             PaneDisplayMode="Left"
-            IsPaneOpen="False"
+            IsPaneOpen="True"
             IsSettingsVisible="False"
             SelectedItem="{Binding SelectedMenuItem.Value}">
             <ui:NavigationView.MenuItems>
@@ -51,4 +54,4 @@
         </ui:NavigationView>
     </Grid>
 
-</Window>
+</win:AppWindow>
