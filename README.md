@@ -1,5 +1,7 @@
 # Nonius
 
+![Nonius - screenshot](docs/nonius.png)
+
 ### Lightweight Profiler Viewer for Rails Apps
 
 Nonius is a desktop app that provides a streamlined interface for viewing and managing profiling results from your Rails applications. It integrates seamlessly with the Ruby profiling tool [Vernier](https://github.com/jhawthorn/vernier) and presents profiling data using the powerful [Firefox Profiler](https://profiler.firefox.com/). If you're working with Rails apps and need an efficient way to visualize performance data, Nonius is here to make it simple and fast.
