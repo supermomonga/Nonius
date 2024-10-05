@@ -35,5 +35,6 @@ jobs:
         with:
           generate_release_notes: true
           tag_name: ${{ steps.tag-new-version.outputs.tag }}
-          files: |
-            dist/Nonius-macos-arm64.zip
+          # TODO: enable when codesigning is set up
+          # files: |
+          #   dist/Nonius-macos-arm64.zip
