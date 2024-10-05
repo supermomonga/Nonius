@@ -29,7 +29,7 @@ jobs:
       - if: ${{ steps.tag-new-version.outputs.tag }}
         run: sh src/bundle-macos.sh
       - if: ${{ steps.tag-new-version.outputs.tag }}
-        run: zip -9 -r dist/Nonius-macos-arm64.zip Nonius.app
+        run: zip -9 -r dist/Nonius-macos-arm64.zip dist/Nonius.app
       - if: ${{ steps.tag-new-version.outputs.tag }}
         uses: softprops/action-gh-release@v2
         with:
