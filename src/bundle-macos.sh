@@ -23,4 +23,4 @@ mkdir "$APP_NAME/Contents/Resources"
 
 cp "$INFO_PLIST" "$APP_NAME/Contents/Info.plist"
 cp "$SRC_DIR/Nonius/Assets/$ICON_FILE" "$APP_NAME/Contents/Resources/$ICON_FILE"
-cp -r "$PUBLISH_OUTPUT_DIRECTORY" "$APP_NAME/Contents/MacOS/"
+cp -r "$PUBLISH_OUTPUT_DIRECTORY*" "$APP_NAME/Contents/MacOS/"
