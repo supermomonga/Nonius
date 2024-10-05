@@ -40,8 +40,82 @@ group :development, :test do
 end
 ```
 
-2.	Add Vernier profiling hooks, such as in a middleware or test suite:
-3.	Load your profiling data into Nonius and start analyzing!
+2. Add Vernier profiling hooks, such as in a middleware or test suite:
+
+for RSpec request spec:
+
+```rb
+# spec/support/vernier_profiler_support.rb
+require 'vernier'
+require 'securerandom'
+
+module VernierProfilerSupport
+  def get(path, **args) = with_vernier_profiling { super }
+  def post(path, **args) = with_vernier_profiling { super }
+  def delete(path, **args) = with_vernier_profiling { super }
+  def put(path, **args) = with_vernier_profiling { super }
+  def patch(path, **args) = with_vernier_profiling { super }
+  def head(path, **args) = with_vernier_profiling { super }
+
+  private def with_vernier_profiling
+    Vernier.start_profile(
+      out: Rails.root.join('tmp/profiling', "#{SecureRandom.uuid}.json").to_s,
+      hooks: [:rails]
+    )
+    result = yield
+    Vernier.stop_profile
+    return result
+  end
+end
+```
+
+```rb
+# spec/rails_helper.rb
+if ENV.fetch('ENABLE_VERNIER_PROFILER', false)
+  require_relative 'support/vernier_profiler_support'
+  RSpec.configure do |config|
+    config.include VernierProfilerSupport, type: :request
+  end
+end
+```
+
+for Rails server:
+
+```rb
+# lib/rack/vernier_profiler.rb
+require 'vernier'
+require 'securerandom'
+
+class VernierProfiler
+  def initialize(app)
+    FileUtils.mkdir_p(Rails.root.join('tmp/profiling'))
+    @app = app
+  end
+
+  def call(env)
+    Vernier.start_profile(out: Rails.root.join('tmp/profiling', "#{SecureRandom.uuid}.json").to_s, hooks: [:rails])
+    status, headers, response = @app.call(env)
+    Vernier.stop_profile
+    return [status, headers, response]
+  end
+end
+```
+
+```rb
+# config/environments/development.rb
+require "active_support/core_ext/integer/time"
+
+Rails.application.configure do
+  if ENV.fetch('ENABLE_VERNIER_PROFILER', false)
+    require_relative '../../lib/rack/vernier_profiler'
+    config.middleware.use VernierProfiler
+  end
+end
+```
+
+
+3. Create a new project in Nonius, and configure profile data directory. In this case, `your_rails_app_root_dir/tmp/profiling` is the data directory.
+4. Start analyzing!
 
 
 ## 🚀 Roadmap
