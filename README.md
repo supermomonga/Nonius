@@ -15,6 +15,8 @@ Nonius is a desktop app that provides a streamlined interface for viewing and ma
 
 ### Build from source
 
+You need to install [.NET SDK](https://dotnet.microsoft.com/en-us/download).
+
 ```sh
 dotnet publish src/Nonius/Nonius.csproj -c Release -r osx-arm64 -p:Platform=osx-arm64 -p:UseAppHost=true
 sh src/bundle-macos.sh
