@@ -6,10 +6,21 @@
 
 Nonius is a desktop app that provides a streamlined interface for viewing and managing profiling results from your Rails applications. It integrates seamlessly with the Ruby profiling tool [Vernier](https://github.com/jhawthorn/vernier) and presents profiling data using the powerful [Firefox Profiler](https://profiler.firefox.com/). If you're working with Rails apps and need an efficient way to visualize performance data, Nonius is here to make it simple and fast.
 
-## 📦 Download Now
+## 📦 Install
+
+### Pre-compiled binary
 
 - **macOS**: <s>[Download the latest release](https://github.com/supermomonga/Nonius/releases)</s> codesign is not ready. please wait a moment.
 - **Windows & Linux**: Coming soon!
+
+### Build from source
+
+```sh
+dotnet publish src/Nonius/Nonius.csproj -c Release -r osx-arm64 -p:Platform=osx-arm64 -p:UseAppHost=true
+sh src/bundle-macos.sh
+```
+
+Then, you can use `dist/Nonius.app`.
 
 ## 🔥 Key Features
 
