@@ -1,18 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 
 using Epoxy;
-using WebViewControl;
 using Epoxy.Synchronized;
 using Nonius.Models.Vernier;
+using Nonius.Services;
 using Avalonia.Controls;
 using System.Threading;
-using System.Web;
 
 namespace Nonius.ViewModels;
 
 public partial class MonitoringViewModel : ViewModelBase
 {
     private readonly ApplicationContextViewModel _Context;
+    private readonly ProfileViewerServer _ProfileViewerServer;
     public BindableReactiveProperty<string> LogDirectoryPath { get; }
     public Observable<bool> IsValidLogDirectoryPath { get; }
 
@@ -25,21 +25,18 @@ public partial class MonitoringViewModel : ViewModelBase
     public BindableReactiveProperty<ProfilingDataItemViewModel> SelectedProfilingData { get; } = new();
     public BindableReactiveProperty<bool> ShowProfileViewer { get; } = new(false);
     public BindableReactiveProperty<int> ViewerPaneWidth => _Context.ViewerPaneWidth;
-    public BindableReactiveProperty<string> BrowserAddress { get; } = new();
+    public BindableReactiveProperty<Uri> BrowserAddress { get; } = new(new Uri("about:blank"));
 
-    public Pile<WebView> WebViewPile { get; } = Pile.Factory.Create<WebView>();
-    public Well<WebView> WebViewWell { get; } = Well.Factory.Create<WebView>();
+    public Pile<NativeWebView> WebViewPile { get; } = Pile.Factory.Create<NativeWebView>();
     public Well<SplitView> SplitViewWell { get; } = Well.Factory.Create<SplitView>();
     public Well<UserControl> ContainerWell { get; } = Well.Factory.Create<UserControl>();
 
-    public Uri NoniusUri { get; } = new("https://vernier.prof/");
-
-
     private FileSystemWatcher? _Watcher;
-    public MonitoringViewModel(ApplicationContextViewModel context)
+    public MonitoringViewModel(ApplicationContextViewModel context, ProfileViewerServer profileViewerServer)
     {
         System.Console.WriteLine($"Thread: {Environment.CurrentManagedThreadId}");
         _Context = context;
+        _ProfileViewerServer = profileViewerServer;
         ProjectsView = _Context.Projects.ToNotifyCollectionChanged(SynchronizationContextCollectionEventDispatcher.Current);
 
         ProfilingDataList = [];
@@ -57,22 +54,12 @@ public partial class MonitoringViewModel : ViewModelBase
             else
             {
                 ShowProfileViewer.Value = true;
-                var fileName = Path.GetFileName(x.DataFilePath);
-                var fileUrl = HttpUtility.UrlEncode($"http://localhost/{fileName}");
-                var url = $"https://vernier.prof/from-url/{fileUrl}";
+                Uri url = _ProfileViewerServer.GetProfileViewerUri(x.DataFilePath);
                 if (BrowserAddress.Value != url)
                 {
                     BrowserAddress.Value = url;
                 }
             }
-        });
-
-        // TODO: NativeAOT では文字列ベースのイベント名を認識できないので、Routed Events の実装が必要
-        // WebViewWell.Add<ResourceHandler>("BeforeResourceLoad", ResourceLoadHandler);
-        WebViewWell.Add(Control.LoadedEvent, () =>
-        {
-            WebViewPile.RentSync(webView => webView.BeforeResourceLoad += BeforeResourceLoadHandler);
-            return ValueTask.CompletedTask;
         });
 
         SplitViewWell.Add(SplitView.PaneClosingEvent, (e) =>
@@ -95,7 +82,8 @@ public partial class MonitoringViewModel : ViewModelBase
                     {
                         try
                         {
-                            var data = await JsonSerializer.DeserializeAsync<ProfilingData>(File.OpenRead(file));
+                            await using FileStream stream = File.OpenRead(file);
+                            ProfilingData? data = await JsonSerializer.DeserializeAsync<ProfilingData>(stream, cancellationToken: ct);
                             return data == null
                                 ? null
                                 : new ProfilingDataItemViewModel()
@@ -155,7 +143,8 @@ public partial class MonitoringViewModel : ViewModelBase
     {
         try
         {
-            var data = JsonSerializer.Deserialize<ProfilingData>(File.OpenRead(e.FullPath));
+            using FileStream stream = File.OpenRead(e.FullPath);
+            ProfilingData? data = JsonSerializer.Deserialize<ProfilingData>(stream);
             if (data != null)
             {
                 ProfilingDataList.Insert(0, new ProfilingDataItemViewModel()
@@ -192,30 +181,7 @@ public partial class MonitoringViewModel : ViewModelBase
         }
     }
 
-    public void BeforeResourceLoadHandler(ResourceHandler handler)
-    {
-        if (handler.Handled)
-            return;
-
-        if (!handler.Method.Equals("GET", StringComparison.InvariantCultureIgnoreCase))
-            return;
-
-        if (!handler.Url.StartsWith("http://localhost/", StringComparison.InvariantCultureIgnoreCase) ||
-            !handler.Url.EndsWith(".json", StringComparison.InvariantCultureIgnoreCase))
-            return;
-
-        string jsonPath = Path.Join(LogDirectoryPath.Value, HttpUtility.UrlDecode(handler.Url.Split('/').Last()));
-        if (!File.Exists(jsonPath))
-            return;
-
-        handler.RespondWith(jsonPath);
-    }
-
     [RelayCommand]
     public void Reload()
-        => WebViewPile.RentSync(webView => webView.Reload());
-
-    [RelayCommand]
-    public void OpenDeveloperTools()
-        => WebViewPile.RentSync(webView => webView.ShowDeveloperTools());
+        => WebViewPile.RentSync(webView => webView.Refresh());
 }

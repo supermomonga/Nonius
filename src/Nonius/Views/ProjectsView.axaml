@@ -5,7 +5,6 @@
              xmlns:vm="using:Nonius.ViewModels"
              xmlns:epoxy="using:Epoxy"
              xmlns:ui="using:FluentAvalonia.UI.Controls"
-             xmlns:icm="using:FluentIcons.Avalonia.Fluent.MarkupExtensions"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="vm:ProjectsViewModel"
              x:Class="Nonius.Views.ProjectsView">
@@ -40,39 +39,39 @@
                     <StackPanel
                         Margin="20 0 20 0"
                         Spacing="10">
-                        <ui:SettingsExpander
+                        <ui:FASettingsExpander
                             Header="Name"
                             Description="Project name"
-                            IconSource="{icm:SymbolIconSourceExtension Symbol=Folder}">
-                            <ui:SettingsExpander.Footer>
+                            IconSource="Folder">
+                            <ui:FASettingsExpander.Footer>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox Text="{Binding Name.Value}" Width="300" />
                                 </StackPanel>
-                            </ui:SettingsExpander.Footer>
-                        </ui:SettingsExpander>
+                            </ui:FASettingsExpander.Footer>
+                        </ui:FASettingsExpander>
 
-                        <ui:SettingsExpander
+                        <ui:FASettingsExpander
                             Header="Profile data dir"
                             Description="Location of profile data json files"
-                            IconSource="{icm:SymbolIconSourceExtension Symbol=DataUsage}">
-                            <ui:SettingsExpander.Footer>
+                            IconSource="DataUsage">
+                            <ui:FASettingsExpander.Footer>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox Text="{Binding ProfileDataDir.Value}" Width="300" />
                                 </StackPanel>
-                            </ui:SettingsExpander.Footer>
-                        </ui:SettingsExpander>
+                            </ui:FASettingsExpander.Footer>
+                        </ui:FASettingsExpander>
 
                         <!-- TODO: code jump
-                        <ui:SettingsExpander
+                        <ui:FASettingsExpander
                             Header="Source code dir"
                             Description="Location of source code files"
-                            IconSource="{icm:SymbolIconSourceExtension Symbol=Code}">
-                            <ui:SettingsExpander.Footer>
+                            IconSource="Code">
+                            <ui:FASettingsExpander.Footer>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox Text="{Binding SourceCodeDir.Value}" Width="300" />
                                 </StackPanel>
-                            </ui:SettingsExpander.Footer>
-                        </ui:SettingsExpander>
+                            </ui:FASettingsExpander.Footer>
+                        </ui:FASettingsExpander>
                         -->
                     </StackPanel>
                 </DockPanel>
@@ -99,7 +98,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Command="{Binding $parent[UserControl].((vm:ProjectsViewModel)DataContext).RemoveProjectCommand}" CommandParameter="{Binding}">
-                                    <ui:SymbolIcon Symbol="Delete" />
+                                    <ui:FASymbolIcon Symbol="Delete" />
                                 </Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

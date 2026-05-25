@@ -4,7 +4,7 @@
 
 ### Lightweight Profiler Viewer for Rails Apps
 
-Nonius is a desktop app that provides a streamlined interface for viewing and managing profiling results from your Rails applications. It integrates seamlessly with the Ruby profiling tool [Vernier](https://github.com/jhawthorn/vernier) and presents profiling data using the powerful [Firefox Profiler](https://profiler.firefox.com/). If you're working with Rails apps and need an efficient way to visualize performance data, Nonius is here to make it simple and fast.
+Nonius is a desktop app that provides a streamlined interface for viewing and managing profiling results from your Rails applications. It integrates seamlessly with the Ruby profiling tool [Vernier](https://github.com/jhawthorn/vernier) and presents profiling data using a bundled Firefox Profiler viewer, so profiles can be inspected locally without opening `vernier.prof`. If you're working with Rails apps and need an efficient way to visualize performance data, Nonius is here to make it simple and fast.
 
 ## 📦 Install
 
@@ -15,7 +15,7 @@ Nonius is a desktop app that provides a streamlined interface for viewing and ma
 
 ### Build from source
 
-You need to install [.NET SDK](https://dotnet.microsoft.com/en-us/download).
+You need to install [.NET SDK 10 or later](https://dotnet.microsoft.com/en-us/download).
 
 ```sh
 dotnet publish src/Nonius/Nonius.csproj -c Release -r osx-arm64 -p:Platform=osx-arm64 -p:UseAppHost=true
@@ -30,6 +30,7 @@ Then, you can use `dist/Nonius.app`.
 - **Multi-App Support**: Manage and analyze profiling data from multiple Rails applications, all within the same interface.
 - **Lightweight & Efficient**: Nonius is designed to be fast and minimal, ensuring that you can quickly dive into performance insights without bloat or distractions.
 - **Seamless Vernier Integration**: Nonius automatically syncs with Vernier profiler to retrieve and display your profiling results.
+- **Local Profile Viewer**: Nonius bundles the profile viewer assets and serves selected profiles from a local loopback server.
 - **Interactive Filtering**: Easily sift through large profiling data with built-in filtering and search tools (coming soon).
 
 ## 🖥️ How It Works
@@ -133,7 +134,6 @@ end
 
 ## 🚀 Roadmap
 
-- Offline Mode: Currently, Nonius relies on vernier's hosted profiler web interface ( https://vernier.prof/ ). An offline mode is planned to ensure full functionality without internet access.
 - Advanced Filtering: More powerful filtering and search capabilities, similar to Datadog, will soon be available for deep analysis of your profiling data.
 
 ## 🛠️ Contribution

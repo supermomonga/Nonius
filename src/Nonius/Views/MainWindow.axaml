@@ -1,4 +1,4 @@
-<win:AppWindow xmlns="https://github.com/avaloniaui"
+<win:FAAppWindow xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:Nonius.ViewModels"
         xmlns:v="using:Nonius.Views"
@@ -7,7 +7,6 @@
         xmlns:ui="using:FluentAvalonia.UI.Controls"
         xmlns:win="using:FluentAvalonia.UI.Windowing"
         xmlns:epoxy="using:Epoxy"
-        xmlns:icm="using:FluentIcons.Avalonia.Fluent.MarkupExtensions"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Nonius.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -39,7 +38,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Top" />
 
-        <ui:NavigationView
+        <ui:FANavigationView
             DockPanel.Dock="Left"
             Margin="0 30 0 0"
             OpenPaneLength="140"
@@ -47,21 +46,21 @@
             IsPaneOpen="True"
             IsSettingsVisible="False"
             SelectedItem="{Binding SelectedMenuItem.Value}">
-            <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem Content="Monitoring" Tag="Monitoring" IconSource="Play" IsSelected="True" />
-                <ui:NavigationViewItem Content="Projects" Tag="Projects" IconSource="Folder" />
-            </ui:NavigationView.MenuItems>
-            <ui:NavigationView.FooterMenuItems>
-                <ui:NavigationViewItem Content="About" Tag="About" IconSource="{icm:SymbolIconSourceExtension Symbol=Info}" />
-                <ui:NavigationViewItem Content="Settings" Tag="Settings" IconSource="Setting" />
-            </ui:NavigationView.FooterMenuItems>
+            <ui:FANavigationView.MenuItems>
+                <ui:FANavigationViewItem Content="Monitoring" Tag="Monitoring" IconSource="Play" IsSelected="True" />
+                <ui:FANavigationViewItem Content="Projects" Tag="Projects" IconSource="Folder" />
+            </ui:FANavigationView.MenuItems>
+            <ui:FANavigationView.FooterMenuItems>
+                <ui:FANavigationViewItem Content="About" Tag="About" IconSource="Info" />
+                <ui:FANavigationViewItem Content="Settings" Tag="Settings" IconSource="Setting" />
+            </ui:FANavigationView.FooterMenuItems>
 
             <DockPanel>
-                <ui:Frame
+                <ui:FAFrame
                     epoxy:Anchor.Pile="{Binding ContentFramePile}"
                     Content="{Binding ContentViewModel.Value}" />
             </DockPanel>
-        </ui:NavigationView>
+        </ui:FANavigationView>
     </Grid>
 
-</win:AppWindow>
+</win:FAAppWindow>

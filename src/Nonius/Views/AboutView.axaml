@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Nonius.ViewModels"
              xmlns:ui="using:FluentAvalonia.UI.Controls"
-             xmlns:icm="using:FluentIcons.Avalonia.Fluent.MarkupExtensions"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="vm:AboutViewModel"
              x:Class="Nonius.Views.AboutView">
@@ -38,9 +37,9 @@
                 ItemsSource="{Binding Licenses}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <ui:SettingsExpander
+                        <ui:FASettingsExpander
                             Margin="0 0 0 10">
-                            <ui:SettingsExpander.Header>
+                            <ui:FASettingsExpander.Header>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock
                                         Text="{Binding PackageId}" />
@@ -50,25 +49,25 @@
                                         Foreground="{StaticResource TextFillColorSecondaryBrush}"
                                         Theme="{StaticResource CaptionTextBlockStyle}" />
                                 </StackPanel>
-                            </ui:SettingsExpander.Header>
-                            <ui:SettingsExpanderItem
+                            </ui:FASettingsExpander.Header>
+                            <ui:FASettingsExpanderItem
                                 IsVisible="{Binding Authors, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                                 Content="Authors">
-                                <ui:SettingsExpanderItem.Footer>
+                                <ui:FASettingsExpanderItem.Footer>
                                     <TextBlock Text="{Binding Authors}" />
-                                </ui:SettingsExpanderItem.Footer>
-                            </ui:SettingsExpanderItem>
-                            <ui:SettingsExpanderItem
+                                </ui:FASettingsExpanderItem.Footer>
+                            </ui:FASettingsExpanderItem>
+                            <ui:FASettingsExpanderItem
                                 IsVisible="{Binding PackageProjectUrl, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                                 Content="Website">
-                                <ui:SettingsExpanderItem.Footer>
+                                <ui:FASettingsExpanderItem.Footer>
                                     <HyperlinkButton
                                         Content="{Binding PackageProjectUrl}"
                                         NavigateUri="{Binding PackageProjectUrl}" />
-                                </ui:SettingsExpanderItem.Footer>
-                            </ui:SettingsExpanderItem>
-                            <ui:SettingsExpanderItem Content="License">
-                                <ui:SettingsExpanderItem.Footer>
+                                </ui:FASettingsExpanderItem.Footer>
+                            </ui:FASettingsExpanderItem>
+                            <ui:FASettingsExpanderItem Content="License">
+                                <ui:FASettingsExpanderItem.Footer>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock
                                             VerticalAlignment="Center"
@@ -79,16 +78,16 @@
                                             Content="{Binding LicenseUrl}"
                                             NavigateUri="{Binding LicenseUrl}" />
                                     </StackPanel>
-                                </ui:SettingsExpanderItem.Footer>
-                            </ui:SettingsExpanderItem>
-                            <ui:SettingsExpanderItem
+                                </ui:FASettingsExpanderItem.Footer>
+                            </ui:FASettingsExpanderItem>
+                            <ui:FASettingsExpanderItem
                                 IsVisible="{Binding Copyright, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                                 Content="Copyright">
-                                <ui:SettingsExpanderItem.Footer>
+                                <ui:FASettingsExpanderItem.Footer>
                                     <TextBlock Text="{Binding Copyright}" />
-                                </ui:SettingsExpanderItem.Footer>
-                            </ui:SettingsExpanderItem>
-                        </ui:SettingsExpander>
+                                </ui:FASettingsExpanderItem.Footer>
+                            </ui:FASettingsExpanderItem>
+                        </ui:FASettingsExpander>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

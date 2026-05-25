@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Nonius.ViewModels"
              xmlns:controls="using:Nonius.Controls"
-             xmlns:webview="clr-namespace:WebViewControl;assembly=WebViewControl.Avalonia"
              xmlns:ui="using:FluentAvalonia.UI.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:epoxy="using:Epoxy"
@@ -32,15 +31,13 @@
                 <DockPanel>
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="10 5">
                         <Button Content="Reload" Command="{Binding ReloadCommand}" Margin="0 0 5 0" />
-                        <Button Content="DevTools" Command="{Binding OpenDeveloperToolsCommand}" />
                     </StackPanel>
-                    <webview:WebView
+                    <NativeWebView
                         epoxy:Anchor.Pile="{Binding WebViewPile}"
-                        epoxy:Fountain.Well="{Binding WebViewWell}"
-                        Address="{Binding BrowserAddress.Value}"
+                        Source="{Binding BrowserAddress.Value}"
                         x:Name="webView"
-                        Focusable="True">
-                    </webview:WebView>
+                        Focusable="True"
+                        EnvironmentRequested="NativeWebView_OnEnvironmentRequested" />
                 </DockPanel>
             </Border>
         </SplitView.Pane>

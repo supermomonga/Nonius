@@ -16,7 +16,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public BindableReactiveProperty<ViewModelBase> ContentViewModel { get; } = new();
 
-    public BindableReactiveProperty<NavigationViewItem?> SelectedMenuItem { get; } = new();
+    public BindableReactiveProperty<FANavigationViewItem?> SelectedMenuItem { get; } = new();
 
     public ReactiveProperty<int> ContentAreaBoundWidth => _Context.ContentAreaBoundWidth;
 
@@ -25,7 +25,7 @@ public partial class MainWindowViewModel : ViewModelBase
     public Well<TextBlock> WindowTitleTextBlockWell { get; } = Well.Factory.Create<TextBlock>();
     public Pile<TextBlock> WindowTitleTextBlockPile { get; } = Pile.Factory.Create<TextBlock>();
 
-    public Pile<Frame> ContentFramePile { get; } = Pile.Factory.Create<Frame>();
+    public Pile<FAFrame> ContentFramePile { get; } = Pile.Factory.Create<FAFrame>();
 
     private readonly ApplicationContextViewModel _Context;
     private readonly MonitoringViewModel _MonitoringViewModel;
@@ -80,7 +80,7 @@ public partial class MainWindowViewModel : ViewModelBase
         });
     }
 
-    private void OnSelectedMenuItemChanged(NavigationViewItem? value)
+    private void OnSelectedMenuItemChanged(FANavigationViewItem? value)
     {
         switch (value?.Tag)
         {

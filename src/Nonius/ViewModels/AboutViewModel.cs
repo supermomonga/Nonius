@@ -31,11 +31,6 @@ public partial class AboutViewModel : ViewModelBase
                     license.License = "Apache License 2.0";
                     license.LicenseUrl = "https://github.com/sandreas/Avalonia.Preferences/blob/main/LICENSE";
                     break;
-                case "WebViewControl-Avalonia":
-                case "WebViewControl-Avalonia-ARM64":
-                    license.License = "Apache License 2.0";
-                    license.LicenseUrl = "https://github.com/OutSystems/WebView/blob/master/LICENSE";
-                    break;
                 default:
                     break;
             }
@@ -54,9 +49,9 @@ public partial class AboutViewModel : ViewModelBase
         });
         Licenses.Add(new LicenseInfo()
         {
-            PackageId = "tenderlove/profiler",
-            PackageVersion = string.Empty,
-            PackageProjectUrl = "https://github.com/tenderlove/profiler",
+            PackageId = "profile-viewer",
+            PackageVersion = "0.0.7",
+            PackageProjectUrl = "https://github.com/tenderlove/profiler/tree/ruby",
             Authors = string.Empty,
             License = "Mozilla Public License 2.0",
             LicenseUrl = "https://github.com/tenderlove/profiler/blob/ruby/LICENSE",

@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Nonius.ViewModels"
              xmlns:ui="using:FluentAvalonia.UI.Controls"
-             xmlns:icm="using:FluentIcons.Avalonia.Fluent.MarkupExtensions"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="vm:SettingsViewModel"
              x:Class="Nonius.Views.SettingsView">
@@ -22,17 +21,17 @@
         </StackPanel>
 
         <StackPanel>
-            <ui:SettingsExpander
+            <ui:FASettingsExpander
                 Header="Profile viewer pane width (%)"
                 Description="Default is 80%"
-                IconSource="{icm:SymbolIconSourceExtension Symbol=PanelRightExpand}">
-                <ui:SettingsExpander.Footer>
+                IconSource="PanelRightExpand">
+                <ui:FASettingsExpander.Footer>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding ViewerPaneWidthRatio.Value, Mode=OneWay, StringFormat={}{0}%}" VerticalAlignment="Center" Margin="0 0 10 0" />
                         <Slider Value="{Binding ViewerPaneWidthRatio.Value}" Width="150" Minimum="5" Maximum="95" />
                     </StackPanel>
-                </ui:SettingsExpander.Footer>
-            </ui:SettingsExpander>
+                </ui:FASettingsExpander.Footer>
+            </ui:FASettingsExpander>
         </StackPanel>
     </DockPanel>
 </UserControl>
