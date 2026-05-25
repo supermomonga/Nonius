@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 
+using Avalonia.Threading;
 using Epoxy;
 using Epoxy.Synchronized;
 using Nonius.Models.Vernier;
 using Nonius.Services;
 using Avalonia.Controls;
+using System.Collections.ObjectModel;
 using System.Threading;
 
 namespace Nonius.ViewModels;
@@ -16,8 +18,8 @@ public partial class MonitoringViewModel : ViewModelBase
     public BindableReactiveProperty<string> LogDirectoryPath { get; }
     public Observable<bool> IsValidLogDirectoryPath { get; }
 
-    public ObservableList<ProfilingDataItemViewModel> ProfilingDataList { get; private set; }
-    public INotifyCollectionChangedSynchronizedViewList<ProfilingDataItemViewModel> ProfilingDataListView { get; private set; }
+    public ObservableCollection<ProfilingDataItemViewModel> ProfilingDataList { get; } = [];
+    public ReadOnlyObservableCollection<ProfilingDataItemViewModel> ProfilingDataListView { get; }
 
     public INotifyCollectionChangedSynchronizedViewList<ProjectViewModel> ProjectsView { get; }
     public BindableReactiveProperty<ProjectViewModel?> SelectedProject => _Context.SelectedProject;
@@ -39,8 +41,7 @@ public partial class MonitoringViewModel : ViewModelBase
         _ProfileViewerServer = profileViewerServer;
         ProjectsView = _Context.Projects.ToNotifyCollectionChanged(SynchronizationContextCollectionEventDispatcher.Current);
 
-        ProfilingDataList = [];
-        ProfilingDataListView = ProfilingDataList.CreateView(x => x).ToNotifyCollectionChanged(SynchronizationContextCollectionEventDispatcher.Current);
+        ProfilingDataListView = new ReadOnlyObservableCollection<ProfilingDataItemViewModel>(ProfilingDataList);
         LogDirectoryPath = SelectedProject.WhereNotNull().Select(x => x.ProfileDataDir.AsObservable()).Switch().ToBindableReactiveProperty(string.Empty);
         IsValidLogDirectoryPath = LogDirectoryPath.Select(Directory.Exists);
         LogDirectoryPath.SubscribeAwait(async (path, ct) => await OnLogDirectoryPathChangedAsync(path, ct));
@@ -72,44 +73,22 @@ public partial class MonitoringViewModel : ViewModelBase
 
     private async Task InvalidateProfilingDataListAsync(string path, CancellationToken ct = default)
     {
-        if (Directory.Exists(path))
+        IReadOnlyList<ProfilingDataItemViewModel> items = await ProfilingDataItemLoader.LoadAsync(path, ct);
+        await RunOnUIThreadAsync(() =>
         {
-            var files = await Task.Run(() => Directory.GetFiles(path, "*.json"));
-            if (files.Length != 0)
+            foreach (ProfilingDataItemViewModel item in items)
             {
-                var ps = await Task.WhenAll(
-                    files.AsParallel().Select(async file =>
-                    {
-                        try
-                        {
-                            await using FileStream stream = File.OpenRead(file);
-                            ProfilingData? data = await JsonSerializer.DeserializeAsync<ProfilingData>(stream, cancellationToken: ct);
-                            return data == null
-                                ? null
-                                : new ProfilingDataItemViewModel()
-                                {
-                                    DataFilePath = file,
-                                    Data = data
-                                };
-                        }
-                        catch
-                        {
-                            return null;
-                        }
-                    })
-                );
-                var nps = ps.Compact().Where(x => !ProfilingDataList.Contains(x));
-                if (nps.Any())
+                if (!ProfilingDataList.Contains(item))
                 {
-                    ProfilingDataList.AddRange(nps.OrderByDescending(x => x.StartedAt));
+                    ProfilingDataList.Add(item);
                 }
             }
-        }
+        });
     }
 
     private async Task OnLogDirectoryPathChangedAsync(string path, CancellationToken ct)
     {
-        ProfilingDataList.Clear();
+        await RunOnUIThreadAsync(ProfilingDataList.Clear);
         InvalidateLogDirectoryWatcher(path);
         await InvalidateProfilingDataListAsync(path, ct);
     }
@@ -147,10 +126,17 @@ public partial class MonitoringViewModel : ViewModelBase
             ProfilingData? data = JsonSerializer.Deserialize<ProfilingData>(stream);
             if (data != null)
             {
-                ProfilingDataList.Insert(0, new ProfilingDataItemViewModel()
+                ProfilingDataItemViewModel item = new()
                 {
                     DataFilePath = e.FullPath,
                     Data = data
+                };
+                RunOnUIThread(() =>
+                {
+                    if (!ProfilingDataList.Contains(item))
+                    {
+                        ProfilingDataList.Insert(0, item);
+                    }
                 });
             }
         }
@@ -159,25 +145,49 @@ public partial class MonitoringViewModel : ViewModelBase
 
     private void OnProfileDataDeleted(object sender, FileSystemEventArgs e)
     {
-        lock (ProfilingDataList.SyncRoot)
+        RunOnUIThread(() =>
         {
             var item = ProfilingDataList.FirstOrDefault(x => x.DataFilePath == e.FullPath);
             if (item != null)
             {
                 ProfilingDataList.Remove(item);
             }
-        }
+        });
     }
 
     private void OnProfileDataRenamed(object sender, RenamedEventArgs e)
     {
-        lock (ProfilingDataList.SyncRoot)
+        RunOnUIThread(() =>
         {
             var item = ProfilingDataList.FirstOrDefault(x => x.DataFilePath == e.OldFullPath);
             if (item != null)
             {
                 item.DataFilePath = e.FullPath;
             }
+        });
+    }
+
+    private static async Task RunOnUIThreadAsync(Action action)
+    {
+        if (Dispatcher.UIThread.CheckAccess())
+        {
+            action();
+        }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(action);
+        }
+    }
+
+    private static void RunOnUIThread(Action action)
+    {
+        if (Dispatcher.UIThread.CheckAccess())
+        {
+            action();
+        }
+        else
+        {
+            Dispatcher.UIThread.Post(action);
         }
     }
 

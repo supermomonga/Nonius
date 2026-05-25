@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "interval": 1,
+    "startTime": 1700000000000,
+    "processType": 0,
+    "product": "Nonius.Tests",
+    "stackwalk": 0,
+    "version": 31,
+    "preprocessedProfileVersion": 47,
+    "symbolicated": false,
+    "markerSchema": [],
+    "sampleUnits": {
+      "time": "ms",
+      "eventDelay": "ms",
+      "threadCPUDelta": "us"
+    },
+    "categories": [
+      {
+        "name": "Other",
+        "color": "grey",
+        "subcategories": [
+          "Other"
+        ]
+      }
+    ],
+    "sourceCodeIsNotOnSearchfox": true
+  },
+  "libs": [],
+  "threads": [
+    {
+      "name": "main",
+      "isMainThread": true,
+      "processStartupTime": 0,
+      "registerTime": 0,
+      "pausedRanges": [],
+      "pid": 1,
+      "tid": 1,
+      "frameTable": {
+        "address": [],
+        "inlineDepth": [],
+        "category": [],
+        "subcategory": [],
+        "func": [],
+        "nativeSymbol": [],
+        "innerWindowID": [],
+        "implementation": [],
+        "line": [],
+        "column": [],
+        "length": 0
+      },
+      "funcTable": {
+        "name": [],
+        "isJS": [],
+        "relevantForJS": [],
+        "resource": [],
+        "fileName": [],
+        "lineNumber": [],
+        "columnNumber": [],
+        "length": 0
+      },
+      "nativeSymbols": {},
+      "samples": {
+        "stack": [
+          0,
+          0
+        ],
+        "time": [
+          0,
+          15
+        ],
+        "weight": [
+          1,
+          1
+        ],
+        "weightType": "samples",
+        "length": 2
+      },
+      "markers": {
+        "data": [
+          {
+            "type": "process_action.action_controller",
+            "controller": "ProfilesController",
+            "action": "show",
+            "status": 201,
+            "path": "/profiles",
+            "method": "POST",
+            "format": "json"
+          }
+        ],
+        "name": [
+          0
+        ],
+        "startTime": [
+          0
+        ],
+        "endTime": [
+          15
+        ],
+        "phase": [
+          1
+        ],
+        "category": [
+          0
+        ],
+        "length": 1
+      },
+      "stackTable": {
+        "frame": [],
+        "category": [],
+        "subcategory": []
+      }
+    }
+  ]
+}
