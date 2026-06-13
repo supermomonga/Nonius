@@ -6,6 +6,7 @@ gemfile(true) do
   gem 'vernier'
   gem 'rails'
   gem 'sqlite3'
+  gem 'webrick'
 end
 
 require 'active_record'
